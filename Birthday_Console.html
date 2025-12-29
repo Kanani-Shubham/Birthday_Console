@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Hack Console // Nidhi</title>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{
+      background:#020617;
+      color:#e5e7eb;
+      font-family: "Fira Code", monospace;
+      height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .terminal{
+      width:90vw;
+      max-width:800px;
+      height:70vh;
+      border-radius:12px;
+      background:radial-gradient(circle at top,#1e293b,#020617 60%);
+      box-shadow:0 0 40px rgba(15,23,42,0.9);
+      overflow:hidden;
+      display:flex;
+      flex-direction:column;
+    }
+    .titlebar{
+      padding:8px 14px;
+      background:#020617;
+      display:flex;
+      align-items:center;
+      gap:8px;
+      font-size:0.8rem;
+      color:#64748b;
+      border-bottom:1px solid #0f172a;
+    }
+    .dot{
+      width:10px;height:10px;border-radius:50%;
+    }
+    .dot.red{background:#f97373;}
+    .dot.yellow{background:#facc15;}
+    .dot.green{background:#22c55e;}
+    .screen{
+      flex:1;
+      padding:14px;
+      overflow-y:auto;
+      font-size:0.9rem;
+      line-height:1.4;
+    }
+    .prompt-line{display:flex;align-items:center;}
+    .prompt{color:#22c55e;margin-right:6px;}
+    #input{
+      flex:1;
+      background:transparent;
+      border:none;
+      outline:none;
+      color:#e5e7eb;
+      font:inherit;
+    }
+    .cursor{
+      display:inline-block;
+      width:8px;
+      background:#e5e7eb;
+      margin-left:2px;
+      animation:blink 0.9s infinite;
+      height:1rem;
+    }
+    @keyframes blink{
+      0%,50%{opacity:1;}
+      51%,100%{opacity:0;}
+    }
+    .system{color:#38bdf8;}
+    .warning{color:#f97316;}
+    .success{color:#a3e635;}
+    .heart{
+      color:#fb7185;
+      font-weight:bold;
+    }
+    .big-msg{
+      margin-top:10px;
+      white-space:pre-line;
+      color:#e5e7eb;
+    }
+    .badge{
+      margin-top:8px;
+      font-size:0.8rem;
+      color:#94a3b8;
+    }
+  </style>
+</head>
+<body>
+<div class="terminal">
+  <div class="titlebar">
+    <div class="dot red"></div>
+    <div class="dot yellow"></div>
+    <div class="dot green"></div>
+    <span style="margin-left:8px;">@Birthday-console:-</span>
+  </div>
+  <div class="screen" id="screen">
+    <div class="line system">[BOOT] Personal birthday console v1.0 initialized...</div>
+    <div class="line system">[INFO] Target user detected: NIDHI_BEN</div>
+    <div class="line system">[HINT] Type <span class="warning">Birthday</span> and hit Enter.</div>
+    <br>
+  </div>
+  <div class="prompt-line">
+    <span class="prompt">user@you ~/wish $</span>
+    <input id="input" autofocus autocomplete="off" />
+    <span class="cursor"></span>
+  </div>
+</div>
+
+<script>
+const screen = document.getElementById("screen");
+const input = document.getElementById("input");
+const SECRET_CODES = ["BIRTHDAY"];
+let hacked = false;
+
+function printLine(text, cls=""){
+  const div = document.createElement("div");
+  if(cls) div.classList.add(cls);
+  div.innerHTML = text;
+  screen.appendChild(div);
+  screen.scrollTop = screen.scrollHeight;
+}
+
+function fakeProgress(callback){
+  const steps = [
+    "[SCAN] Scanning sister's kindness level...",
+    "[SCAN] Calculating smile-per-second ratio...",
+    "[SCAN] Measuring emotional support bandwidth...",
+    "[OK] Nidhi qualifies as LEGENDARY SISTER ✅"
+  ];
+  let i = 0;
+  function next(){
+    if(i < steps.length){
+      printLine(steps[i],"system");
+      i++;
+      setTimeout(next, 600);
+    }else{
+      callback();
+    }
+  }
+  next();
+}
+
+function revealWish(){
+  const msg =
+`HACK COMPLETE ✅
+Injecting birthday message into universe...
+
+🎂 Happy Birthday, Nidhi Ben 🎂
+
+If sisters were algorithms,
+you would be:
+  -> most stable
+  -> zero bugs
+  -> O(∞) love
+
+May your year compile with:
+  - no errors
+  - infinite joy
+  - high returns on every dream.
+
+From: your developer brother
+who will always keep your happiness
+at the top of the priority queue ♥`;
+  const big = document.createElement("div");
+  big.className = "big-msg";
+  screen.appendChild(big);
+
+  let i = 0;
+  function type(){
+    if(i < msg.length){
+      big.textContent += msg[i];
+      screen.scrollTop = screen.scrollHeight;
+      i++;
+      setTimeout(type, 25);
+    }else{
+      const badge = document.createElement("div");
+      badge.className = "badge";
+      badge.textContent = "// coded with love just for you, Nidhi Ben 💻";
+      screen.appendChild(badge);
+      screen.scrollTop = screen.scrollHeight;
+    }
+  }
+  type();
+}
+
+input.addEventListener("keydown", (e)=>{
+  if(e.key === "Enter"){
+    const val = input.value.trim().toUpperCase();
+    printLine("user@you ~/wish $ " + input.value);
+    input.value = "";
+
+    if(hacked){
+      printLine("[INFO] System already hacked for maximum birthday happiness.","system");
+      return;
+    }
+
+    if(SECRET_CODES.includes(val)){
+      hacked = true;
+      printLine("[ACCESS] Secret code accepted. Initiating heart-hack sequence...","success");
+      fakeProgress(revealWish);
+    }else{
+      printLine("[ERROR] Unknown code. Try Birthday.","warning");
+    }
+  }
+});
+</script>
+</body>
+</html>
